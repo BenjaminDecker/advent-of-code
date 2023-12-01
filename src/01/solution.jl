@@ -1,11 +1,39 @@
-firstdigit(line::String) = parse(Int, match(r"\d", line).match)
+r1 = r"\d"
+r2 = r"\d|one|two|three|four|five|six|seven|eight|nine"
+digit_dict = Dict(
+    "one" => 1,
+    "two" => 2,
+    "three" => 3,
+    "four" => 4,
+    "five" => 5,
+    "six" => 6,
+    "seven" => 7,
+    "eight" => 8,
+    "nine" => 9
+)
 
-function pt1(lines::Vector{String})
+firstdigit_pt1(line::String) = parse(Int, match(r1, line).match)
+
+function firstdigit_pt2(line::String)
+    m = match(r2, line).match
+    if haskey(digit_dict, m)
+        return digit_dict[m]
+    else
+        return parse(Int, m)
+    end
+end
+
+function trebuchet(lines::Vector{String}, part2::Bool)
+    fun = part2 ? firstdigit_pt2 : firstdigit_pt1
     return mapreduce(
-        line -> firstdigit(line) * 10 + firstdigit(reverse(line)),
+        line -> fun(line) * 10 + fun(reverse(line)),
         +,
         lines
     )
 end
 
-pt1(readlines("src/01/input.txt"))
+# pt1
+trebuchet(readlines("src/01/input.txt"), false)
+
+# pt2
+trebuchet(readlines("src/01/input.txt"), true)
