@@ -1,6 +1,6 @@
-r1 = r"\d"
-r2 = r"\d|one|two|three|four|five|six|seven|eight|nine"
-digit_dict = Dict(
+const r1 = r"\d"
+const r2 = r"\d|one|two|three|four|five|six|seven|eight|nine"
+const digit_dict = Dict(
     "one" => 1,
     "two" => 2,
     "three" => 3,
@@ -33,7 +33,7 @@ function trebuchet(lines::Vector{String}, part2::Bool)
 end
 
 # pt1
-trebuchet(readlines("src/01/input.txt"), false)
+println("Part 1: $(trebuchet(readlines("src/01/input.txt"), false))")
 
 # pt2
-trebuchet(readlines("src/01/input.txt"), true)
+println("Part 1: $(trebuchet(readlines("src/01/input.txt"), true))")
