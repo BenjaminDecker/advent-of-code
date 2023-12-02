@@ -12,9 +12,9 @@ const digit_dict = Dict(
     "nine" => 9
 )
 
-firstdigit_pt1(line::String) = parse(Int, match(r1, line).match)
+firstdigit_pt1(line::String)::Int = parse(Int, match(r1, line).match)
 
-function firstdigit_pt2(line::String)
+function firstdigit_pt2(line::String)::Int
     m = match(r2, line).match
     if haskey(digit_dict, m)
         return digit_dict[m]
@@ -23,7 +23,7 @@ function firstdigit_pt2(line::String)
     end
 end
 
-function trebuchet(lines::Vector{String}, part2::Bool)
+function trebuchet(lines::Vector{String}, part2::Bool)::Int
     fun = part2 ? firstdigit_pt2 : firstdigit_pt1
     return mapreduce(
         line -> fun(line) * 10 + fun(reverse(line)),
