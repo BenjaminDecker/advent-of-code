@@ -36,4 +36,4 @@ end
 println("Part 1: $(trebuchet(readlines("src/01/input.txt"), false))")
 
 # pt2
-println("Part 1: $(trebuchet(readlines("src/01/input.txt"), true))")
+println("Part 2: $(trebuchet(readlines("src/01/input.txt"), true))")
