@@ -44,5 +44,39 @@ function gear_ratios_pt1(lines::Vector{String})::Int
     return acc
 end
 
+function number_ranges(line::String)::Vector{AbstractRange}
+    return map(
+        match -> (match.offset):(match.offset+length(match.match)-1),
+        eachmatch(r_number, line)
+    )
+end
+
+function gear_ratios_pt2(lines::Vector{String})::Int
+    acc = 0
+    symbol_adjacency_ranges_lines = map(symbol_adjacency_ranges, symbol_positions_lines(lines, r_symbol_gear))
+    number_ranges_lines = map(number_ranges, lines)
+    for linenumber in eachindex(lines)
+        for gear_adjacency_range in symbol_adjacency_ranges_lines[linenumber]
+            adjacent_numbers = Vector{Int}()
+            for offset in -1:1
+                let linenumber = linenumber + offset
+                    if !(linenumber in eachindex(lines))
+                        continue
+                    end
+                    adjacent_number_ranges = filter_overlapping(gear_adjacency_range, number_ranges_lines[linenumber])
+                    append!(adjacent_numbers, map(range -> parse(Int, lines[linenumber][range]), adjacent_number_ranges))
+                end
+            end
+            if length(adjacent_numbers) == 2
+                acc += reduce(*, adjacent_numbers)
+            end
+        end
+    end
+    return acc
+end
+
 # pt1
 println("Part 1: $(gear_ratios_pt1(readlines("src/03/input.txt")))")
+
+# pt2
+println("Part 2: $(gear_ratios_pt2(readlines("src/03/input.txt")))")
