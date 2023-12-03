@@ -49,7 +49,7 @@ end
 function cube_conundrum(lines::Vector{String}, part2::Bool)::Int
     fun = part2 ? get_power_of_line : get_id_if_possible_else_0
     return mapreduce(
-        line -> fun(line),
+        fun,
         +,
         lines
     )
