@@ -1,24 +1,24 @@
-r_number = r"(\d+)"
-r_seed_range = r"(?<from>\d+) (?<length>\d+)"
-r_mapping = r"(?<dest>\d+) (?<source>\d+) (?<length>\d+)"
+const r_number = r"(\d+)"
+const r_seed_range = r"(?<from>\d+) (?<length>\d+)"
+const r_mapping = r"(?<dest>\d+) (?<source>\d+) (?<length>\d+)"
 
 struct Id_mapping
     source_range::AbstractRange
     distance::Int
 end
 
-function get_id_mappings(mapping_rules_segment::AbstractString)::Set{Id_mapping}
-    return reduce(
-        (set, mapping_match) -> let
+function get_id_mappings(mapping_rules_segment::AbstractString)::Vector{Id_mapping}
+    return [
+        let
             dest = parse(Int, mapping_match["dest"])
             source = parse(Int, mapping_match["source"])
             length = parse(Int, mapping_match["length"])
 
-            push!(set, Id_mapping(source:(source+length-1), dest - source))
-        end,
-        eachmatch(r_mapping, mapping_rules_segment);
-        init=Set{Id_mapping}()
-    )
+            Id_mapping(source:(source+length-1), dest - source)
+        end
+
+        for mapping_match in eachmatch(r_mapping, mapping_rules_segment)
+    ]
 end
 
 function if_you_give_a_seed_a_fertilizer_pt1(path::String)::Int
@@ -43,14 +43,13 @@ function if_you_give_a_seed_a_fertilizer_pt1(path::String)::Int
     return reduce(min, values(seeds))
 end
 
-function get_seed_ranges(line::AbstractString)::Set{AbstractRange}
-    return reduce(
-        (set, match) -> let from = parse(Int, match["from"]), length = parse(Int, match["length"])
-            push!(set, from:(from+length-1))
-        end,
-        eachmatch(r_seed_range, line);
-        init=Set{AbstractRange}()
-    )
+function get_seed_ranges(line::AbstractString)::Vector{AbstractRange}
+    [
+        let from = parse(Int, match["from"]), length = parse(Int, match["length"])
+            from:(from+length-1)
+        end
+        for match in eachmatch(r_seed_range, line)
+    ]
 end
 
 function range_diff(lhs::AbstractRange, rhs::AbstractRange)::Tuple{AbstractRange,AbstractRange,AbstractRange}
@@ -58,9 +57,9 @@ function range_diff(lhs::AbstractRange, rhs::AbstractRange)::Tuple{AbstractRange
     return (lhs.start:(intersection.start-1), intersection, (intersection.stop+1):lhs.stop)
 end
 
-function perform_mapping(input_ranges::Set{AbstractRange}, mapping_rules_segment::AbstractString)::Set{AbstractRange}
+function perform_mapping(input_ranges::Vector{AbstractRange}, mapping_rules_segment::AbstractString)::Vector{AbstractRange}
     id_mappings = get_id_mappings(mapping_rules_segment)
-    output_ranges = Set{AbstractRange}()
+    output_ranges = Vector{AbstractRange}()
 
     input_ranges = copy(input_ranges)
 
@@ -101,7 +100,7 @@ function if_you_give_a_seed_a_fertilizer_pt2(path::String)::Int
 end
 
 # pt1
-println("Part 1: $(if_you_give_a_seed_a_fertilizer_pt1("src/05/input.txt"))")
+@time println("Part 1: $(if_you_give_a_seed_a_fertilizer_pt1("src/05/input.txt"))")
 
 # pt2
-println("Part 2: $(if_you_give_a_seed_a_fertilizer_pt2("src/05/input.txt"))")
+@time println("Part 2: $(if_you_give_a_seed_a_fertilizer_pt2("src/05/input.txt"))")
