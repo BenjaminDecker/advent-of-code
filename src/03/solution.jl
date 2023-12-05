@@ -76,7 +76,7 @@ function gear_ratios_pt2(lines::Vector{String})::Int
 end
 
 # pt1
-println("Part 1: $(gear_ratios_pt1(readlines("src/03/input.txt")))")
+@time println("Part 1: $(gear_ratios_pt1(readlines("src/03/input.txt")))")
 
 # pt2
-println("Part 2: $(gear_ratios_pt2(readlines("src/03/input.txt")))")
+@time println("Part 2: $(gear_ratios_pt2(readlines("src/03/input.txt")))")

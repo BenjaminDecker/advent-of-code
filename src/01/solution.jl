@@ -33,7 +33,7 @@ function trebuchet(lines::Vector{String}, part2::Bool)::Int
 end
 
 # pt1
-println("Part 1: $(trebuchet(readlines("src/01/input.txt"), false))")
+@time println("Part 1: $(trebuchet(readlines("src/01/input.txt"), false))")
 
 # pt2
-println("Part 2: $(trebuchet(readlines("src/01/input.txt"), true))")
+@time println("Part 2: $(trebuchet(readlines("src/01/input.txt"), true))")

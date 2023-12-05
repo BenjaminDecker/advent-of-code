@@ -56,7 +56,7 @@ function cube_conundrum(lines::Vector{String}, part2::Bool)::Int
 end
 
 # pt1
-println("Part 1: $(cube_conundrum(readlines("src/02/input.txt"), false))")
+@time println("Part 1: $(cube_conundrum(readlines("src/02/input.txt"), false))")
 
 # pt2
-println("Part 2: $(cube_conundrum(readlines("src/02/input.txt"), true))")
+@time println("Part 2: $(cube_conundrum(readlines("src/02/input.txt"), true))")

@@ -1,4 +1,4 @@
-r_number = r"(\d+)"
+const r_number = r"(\d+)"
 
 function get_winning_numbers(line::String)::Set{Int}
     winning_numbers_substr = line[(findfirst(':', line)+1):(findfirst('|', line)-1)]
@@ -40,7 +40,7 @@ function scratchcards_pt2(lines::Vector{String})::Int
 end
 
 # pt1
-println("Part 1: $(scratchcards_pt1(readlines("src/04/input.txt")))")
+@time println("Part 1: $(scratchcards_pt1(readlines("src/04/input.txt")))")
 
 # pt2
-println("Part 2: $(scratchcards_pt2(readlines("src/04/input.txt")))")
+@time println("Part 2: $(scratchcards_pt2(readlines("src/04/input.txt")))")
