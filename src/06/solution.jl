@@ -6,7 +6,7 @@ get_numbers_pt2(line) = get_numbers_pt1(replace(line, " " => ""))
 
 function mitternachtsformel(a, b, c)
     let root = sqrt(b^2 - 4 * a * c)
-        return ((-b + root) / 2 * a, (-b - root) / 2a)
+        return ((-b + root) / 2a, (-b - root) / 2a)
     end
 end
 
