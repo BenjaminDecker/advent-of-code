@@ -1,2 +1,4 @@
 [deps]
+Combinatorics = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
+Memoize = "c03570c3-d221-55d1-a50c-7939bbd78826"
 Polynomials = "f27b6e38-b328-58d1-80ce-0feddd5e7a45"

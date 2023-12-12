@@ -1,4 +1,4 @@
-using Memoization
+using Memoize
 
 const r_pattern = r"([\?\.#]+)"
 const r_number = r"(\d+)"
