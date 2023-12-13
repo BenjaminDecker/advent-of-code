@@ -115,4 +115,4 @@ end
 @time println("Part 1: $(pipe_maze_pt1(readlines("src/10/input.txt")))")
 
 # pt2
-@time println("Part 2: $(pipe_maze_pt2(readlines("src/10/test.txt")))")
+@time println("Part 2: $(pipe_maze_pt2(readlines("src/10/input.txt")))")
