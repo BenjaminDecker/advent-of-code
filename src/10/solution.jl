@@ -92,12 +92,12 @@ shoelace(point1::CartesianIndex, point2::CartesianIndex)::Int =
 
 function shoelace(points::Vector{CartesianIndex{2}})::Int
     area_acc = shoelace(points[end], points[1])
-    return mapreduce(
+    return abs(mapreduce(
         i -> shoelace(points[i], points[i+1]),
         +,
         1:(length(points)-1);
         init=area_acc
-    ) / 2
+    ) / 2)
 end
 
 function pipe_maze_pt2(lines::Vector{String})::Int
@@ -115,4 +115,4 @@ end
 @time println("Part 1: $(pipe_maze_pt1(readlines("src/10/input.txt")))")
 
 # pt2
-@time println("Part 2: $(pipe_maze_pt2(readlines("src/10/input.txt")))")
+@time println("Part 2: $(pipe_maze_pt2(readlines("src/10/test.txt")))")
