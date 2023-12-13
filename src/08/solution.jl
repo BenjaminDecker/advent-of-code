@@ -51,7 +51,11 @@ function get_initial_node_pt2(nodes::Dict{String,Node})::Set{Node}
     ))
 end
 
-function haunted_wasteland(instructions::Vector{Symbol}, initial_nodes::Set{Node}, nodes::Dict{String,Node})::Int
+function haunted_wasteland(
+    instructions::Vector{Symbol},
+    initial_nodes::Set{Node},
+    nodes::Dict{String,Node}
+)::Int
     step = 0
     node = initial_nodes
     while !is_final_node(node)
@@ -85,4 +89,4 @@ end
 @time println("Part 1: $(haunted_wasteland(readlines("src/08/input.txt"), false))")
 
 # pt2
-@time println("Part 1: $(haunted_wasteland(readlines("src/08/input.txt"), true))")
+@time println("Part 2: $(haunted_wasteland(readlines("src/08/input.txt"), true))")

@@ -18,7 +18,8 @@ function get_color_amount(split::AbstractString, color::Colorinfo)::Int
     return parse(Int, m[1])
 end
 
-is_split_possible(split::AbstractString, color::Colorinfo)::Bool = get_color_amount(split, color) <= color.max
+is_split_possible(split::AbstractString, color::Colorinfo)::Bool =
+    get_color_amount(split, color) <= color.max
 
 function is_line_possible(line::String)::Bool
     return mapreduce(
@@ -28,7 +29,8 @@ function is_line_possible(line::String)::Bool
     )
 end
 
-get_id_if_possible_else_0(line::String)::Int = is_line_possible(line) ? parse(Int, match(r_id, line)[1]) : 0
+get_id_if_possible_else_0(line::String)::Int =
+    is_line_possible(line) ? parse(Int, match(r_id, line)[1]) : 0
 
 function get_minimum_amount_necessary(line::String, color::Colorinfo)::Int
     return mapreduce(

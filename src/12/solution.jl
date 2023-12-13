@@ -2,7 +2,6 @@ using Memoize
 
 const r_pattern = r"([\?\.#]+)"
 const r_number = r"(\d+)"
-const r_springs = r"(#+)"
 
 @memoize Dict function count_possibilities(
     condition_record::Vector{Char},

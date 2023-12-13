@@ -18,7 +18,10 @@ function get_picked_numbers(line::String)::Set{Int}
     )
 end
 
-get_matches(line::String)::Int = length(intersect(get_winning_numbers(line), get_picked_numbers(line)))
+get_matches(line::String)::Int = length(intersect(
+    get_winning_numbers(line),
+    get_picked_numbers(line))
+)
 
 function get_score(line::String)::Int
     matches = get_matches(line)

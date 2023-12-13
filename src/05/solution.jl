@@ -52,12 +52,18 @@ function get_seed_ranges(line::AbstractString)::Vector{AbstractRange}
     ]
 end
 
-function range_diff(lhs::AbstractRange, rhs::AbstractRange)::Tuple{AbstractRange,AbstractRange,AbstractRange}
+function range_diff(
+    lhs::AbstractRange,
+    rhs::AbstractRange
+)::Tuple{AbstractRange,AbstractRange,AbstractRange}
     intersection = intersect(lhs, rhs)
     return (lhs.start:(intersection.start-1), intersection, (intersection.stop+1):lhs.stop)
 end
 
-function perform_mapping(input_ranges::Vector{AbstractRange}, mapping_rules_segment::AbstractString)::Vector{AbstractRange}
+function perform_mapping(
+    input_ranges::Vector{AbstractRange},
+    mapping_rules_segment::AbstractString
+)::Vector{AbstractRange}
     id_mappings = get_id_mappings(mapping_rules_segment)
     output_ranges = Vector{AbstractRange}()
 
