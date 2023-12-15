@@ -66,7 +66,9 @@ function parabolic_reflector_dish_pt2(dish::Matrix{Char})::Int
 end
 
 
-dish = stack(filter(!isempty, map(collect, split(read("src/14/input.txt", String), '\n'))); dims=1)
+dish = stack(
+    filter(!isempty, map(collect, split(read("src/14/input.txt", String), '\n'))); dims=1
+)
 
 # pt1
 @time println("Part 1: $(parabolic_reflector_dish_pt1(dish))")
