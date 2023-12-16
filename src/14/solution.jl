@@ -67,7 +67,8 @@ end
 
 
 dish = stack(
-    filter(!isempty, map(collect, split(read("src/14/input.txt", String), '\n'))); dims=1
+    filter(!isempty, map(collect, split(read("src/14/input.txt", String), '\n')));
+    dims=1
 )
 
 # pt1
