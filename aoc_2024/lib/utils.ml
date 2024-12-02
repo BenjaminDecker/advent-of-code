@@ -6,3 +6,11 @@ let read_lines filename =
   in
   imp []
 ;;
+
+let line_to_int_list line =
+  String.split_on_char ' ' line |> List.filter (fun x -> x <> "") |> List.map int_of_string
+;;
+
+let lines_to_int_list_list lines = 
+  List.map line_to_int_list lines
+;;

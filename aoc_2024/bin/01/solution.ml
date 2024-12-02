@@ -3,14 +3,6 @@ let nth_int n line =
   int_of_string (List.nth ( List.filter (fun x -> x <> "") (String.split_on_char ' ' line)) n)
 ;;
 
-let line_to_int_list line =
-  String.split_on_char ' ' line |> List.filter (fun x -> x <> "") |> List.map int_of_string
-;;
-
-let lines_to_int_list_list lines = 
-  List.map line_to_int_list lines
-;;
-
 let list_of_nth_ints n lines = 
   List.map (nth_int n) lines
 ;;
@@ -28,7 +20,7 @@ let get_difference int_list =
 ;;
 
 let sol01 lines =
-  lines_to_int_list_list lines
+  Aoc_2024.Utils.lines_to_int_list_list lines
   |> transpose
   |> List.map (List.sort compare)
   |> transpose
