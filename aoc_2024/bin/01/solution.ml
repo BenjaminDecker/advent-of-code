@@ -55,5 +55,5 @@ print_endline "Solution 2:";
 lines
   |> sol02
   |> string_of_int
-  |> print_endline
+  |> print_endline;
 ;;
