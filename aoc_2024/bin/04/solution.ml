@@ -81,11 +81,11 @@ let getElem matrix coord =
 ;;
 
 let checkIfMas charMatrix coord =
-  let center = unwrap (getElem charMatrix coord) in
-  let topRight = unwrap (getElem charMatrix (nextCoords coord  NE)) in
-  let bottomRight = unwrap (getElem charMatrix (nextCoords coord  SE)) in
-  let bottomLeft = unwrap (getElem charMatrix (nextCoords coord  SW)) in
-  let topLeft = unwrap (getElem charMatrix (nextCoords coord  NW)) in
+  let center = getElem charMatrix coord |> unwrap in
+  let topRight = getElem charMatrix (nextCoords coord  NE) |> unwrap in
+  let bottomRight = getElem charMatrix (nextCoords coord  SE) |> unwrap in
+  let bottomLeft = getElem charMatrix (nextCoords coord  SW) |> unwrap in
+  let topLeft = getElem charMatrix (nextCoords coord  NW) |> unwrap in
     center == 'A'
     && ((topRight == 'M' && bottomLeft == 'S') || (topRight == 'S' && bottomLeft == 'M'))
     && ((topLeft == 'M' && bottomRight == 'S') || (topLeft == 'S' && bottomRight == 'M')) 
