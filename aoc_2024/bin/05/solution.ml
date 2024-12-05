@@ -27,11 +27,11 @@ let isCorrect rules update =
   fst (List.fold_left (
     fun acc elem -> match acc with
     | (false, _) -> (false, [])
-    | (true, forbidden) -> (not (List.exists ((=) elem) forbidden)), (rules.(elem) @ forbidden)
+    | (true, forbidden) -> (not (List.mem elem forbidden)), (rules.(elem) @ forbidden)
   ) (true, []) (List.rev update))
 
 let smallerEqual rules lhs rhs = 
-  Bool.to_int (List.exists ((=) rhs) rules.(lhs))
+  Bool.to_int (List.mem rhs rules.(lhs))
 ;;
 
 let createSum updates = 
