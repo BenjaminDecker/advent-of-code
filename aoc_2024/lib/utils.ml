@@ -21,6 +21,32 @@ let range a b =
   imp [] (b-1)
 ;;
 
+let lines_to_char_matrix lines =
+  let width = String.length (List.hd lines) in
+  let height = List.length lines in
+  let chars = Array.make_matrix width height '.' in
+  lines
+  |> List.iteri (
+    fun y row -> (List.iteri (
+      fun x elem -> chars.(x).(y) <- elem
+    ) (row |> String.to_seq |> List.of_seq))
+  );
+  chars
+;;
+
+let printCharMatrix chars =
+  let width = Array.length chars in
+  let height = Array.length (chars.(0)) in
+  List.iter (
+    fun y -> List.iter (
+      fun x -> chars.(x).(y) |> print_char
+    ) (range 0 (width)); print_newline ();
+  ) (range 0 (height))
+;;
+
+let printFlatCharArray width arr = 
+  Array.iteri (fun idx elem -> if idx mod width == 0 then print_newline (); elem |> print_char;) arr
+
 let rec countSubstrOccurences substr str =
   let lengthSubstr = String.length substr in
   let lengthStr = String.length str in
@@ -36,4 +62,30 @@ let unwrap o =
   match o with
   | Some x -> x
   | None -> raise (Failure "Unwrap failed")
+;;
+
+type coords = {
+  x:int;
+  y:int;
+}
+
+let printCoords coords = 
+  print_string "(";
+  print_int coords.x;
+  print_string ",";
+  print_int coords.y;
+  print_endline ")";
+;;
+
+type direction = N | E | S | W | NE | SE | SW | NW
+
+let nextCoords coords = function
+  | N -> {x=coords.x; y=coords.y - 1}
+  | E -> {x=coords.x + 1; y= coords.y}
+  | S -> {x=coords.x; y= coords.y + 1 }
+  | W -> {x=coords.x - 1; y= coords.y}
+  | NE -> {x=coords.x + 1; y= coords.y - 1}
+  | SE -> {x=coords.x + 1; y= coords.y + 1} 
+  | SW -> {x=coords.x - 1; y= coords.y + 1}
+  | NW -> {x=coords.x - 1; y= coords.y - 1}
 ;;
