@@ -12,9 +12,22 @@ let parseLine line =
   {result=result; numbers=numbers}
 ;;
 
-let concat lhs rhs =
-  int_of_string ((string_of_int lhs) ^ (string_of_int rhs))
+let rec numDigits = function
+  | 0 -> 0
+  | n -> 1 + numDigits (n/10)
 ;;
+
+let rec pow b e =
+  match e with 
+  | 0 -> 1
+  | 1 -> b
+  | e -> b * pow b (e-1)
+;;
+
+let concat lhs rhs =
+  lhs * pow 10 (numDigits rhs) + rhs
+;;
+
 
 let rec isValid part2 cE =
   match cE.numbers with
@@ -40,13 +53,6 @@ let sol02 lines =
   |> List.filter (isValid true)
   |> List.map (fun cE -> cE.result)
   |> List.fold_left (+) 0
-;;
-
-let rec isValid cE =
-  match cE.numbers with
-  | [] -> cE.result == 0
-  | x::[] -> cE.result == x
-  | x::x'::xs -> (isValid {result=cE.result; numbers=(x*x')::xs}) || (isValid {result=cE.result; numbers=(x+x')::xs})
 ;;
 
 let () = 
