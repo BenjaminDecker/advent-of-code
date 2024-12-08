@@ -69,6 +69,10 @@ type coords = {
   y:int;
 }
 
+let coords_of_tuple t = 
+  {x=fst t;y=snd t}
+;;
+
 let printCoords coords = 
   print_string "(";
   print_int coords.x;
