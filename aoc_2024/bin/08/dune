@@ -1,4 +1,4 @@
 (executable
  (public_name 08)
  (name solution)
- (libraries aoc_2024 Str))
+ (libraries aoc_2024))
