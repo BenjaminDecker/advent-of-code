@@ -93,3 +93,21 @@ let nextCoords coords = function
   | SW -> {x=coords.x - 1; y= coords.y + 1}
   | NW -> {x=coords.x - 1; y= coords.y - 1}
 ;;
+
+let rec getLast = function
+  | [] -> raise (Failure "Empty list")
+  | x::[] -> x
+  | _::xs -> getLast xs
+;;
+
+let rec removeLast = function
+  | [] -> raise (Failure "Empty list")
+  | _::[] -> []
+  | x::xs -> x::(removeLast xs)
+;;
+
+let rec popLast = function
+  | [] -> raise (Failure "Empty list")
+  | x::[] -> (x, [])
+  | x::xs -> let (x', xs') = popLast xs in (x', x::xs')
+;;
