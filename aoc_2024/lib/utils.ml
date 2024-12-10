@@ -25,8 +25,7 @@ let lines_to_char_matrix lines =
   let width = String.length (List.hd lines) in
   let height = List.length lines in
   let chars = Array.make_matrix width height '.' in
-  lines
-  |> List.iteri (
+  lines |> List.iteri (
     fun y row -> (List.iteri (
       fun x elem -> chars.(x).(y) <- elem
     ) (row |> String.to_seq |> List.of_seq))
@@ -43,9 +42,6 @@ let printCharMatrix chars =
     ) (range 0 (width)); print_newline ();
   ) (range 0 (height))
 ;;
-
-let printFlatCharArray width arr = 
-  Array.iteri (fun idx elem -> if idx mod width == 0 then print_newline (); elem |> print_char;) arr
 
 let rec countSubstrOccurences substr str =
   let lengthSubstr = String.length substr in
@@ -110,4 +106,83 @@ let rec popLast = function
   | [] -> raise (Failure "Empty list")
   | x::[] -> (x, [])
   | x::xs -> let (x', xs') = popLast xs in (x', x::xs')
+;;
+
+type flat_char_array = {
+  width: int;
+  height: int;
+  chars: char array;
+};;
+
+let flat_char_array_of_lines lines = 
+  let width = String.length (List.hd lines) in
+  let height = List.length lines in 
+  let chars = Array.make (width * height) '.' in
+  lines |> List.iteri (
+    fun y row -> (List.iteri (
+      fun x elem -> chars.(y * width + x) <- elem
+    ) (row |> String.to_seq |> List.of_seq))
+  );
+  {width=width; height=height; chars=chars}
+;;
+
+class ['a] flat_array (lines: 'a list) =
+object (self)
+  val width = List.length (List.hd lines)
+  val height = List.length lines
+  val mutable arr = (
+    let width = List.length (List.hd lines) in
+    let height = List.length lines in
+    Array.init (width * height) (
+      fun idx -> let x = idx mod width in let y = idx / width in (List.nth (List.nth lines y) x)
+    )
+  )
+
+  method is_valid coords =
+    let x = (fst coords) in let y = (snd coords) in
+    0 <= x && 0 <= y && x < width && y < height
+
+  method idx_of_coords coords =
+    if not (self#is_valid coords) then raise (Failure "Not a valid index") else 
+    width * (snd coords) + (fst coords)
+
+  method coords_of_idx idx =
+    let coords = idx mod width, idx / width in
+    if not (self#is_valid coords) then raise (Failure "Not a valid index") else 
+    coords
+
+  method get_at coords = 
+    if not (self#is_valid coords) then raise (Failure "Not a valid index") else 
+    arr.(self#idx_of_coords coords)
+
+  method put_at coords elem = 
+    if not (self#is_valid coords) then raise (Failure "Not a valid index") else 
+    arr.(self#idx_of_coords coords) <- elem;
+
+  method find_all_coords f =
+    arr |> Array.to_seqi |> Seq.filter_map (fun (idx, elem) -> if (f elem) then (Some (self#coords_of_idx idx)) else None)
+
+end;;
+
+let print_flat_char_array width arr = 
+  Array.iteri (fun idx elem -> if idx mod width == 0 then print_newline (); elem |> print_char;) arr
+
+let string_of_coords coords =
+  "(" ^ string_of_int (fst coords) ^ ", " ^ string_of_int (snd coords) ^ ")"
+;;
+
+let next_coords (x, y) = function
+  | N -> (x, y - 1)
+  | E -> (x + 1, y)
+  | S -> (x, y + 1)
+  | W -> (x - 1, y)
+  | NE -> (x + 1, y - 1)
+  | SE -> (x + 1, y + 1)
+  | SW -> (x - 1, y + 1)
+  | NW -> (x - 1, y - 1)
+;;
+
+let smallerEqual coords1 coords2 = 
+  let comp = compare (snd coords1) (snd coords2) in
+  if comp <> 0 then comp else compare (fst coords1) (fst coords2)
 ;;

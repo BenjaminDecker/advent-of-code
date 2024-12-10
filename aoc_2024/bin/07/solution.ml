@@ -28,6 +28,10 @@ let concat lhs rhs =
   lhs * pow 10 (numDigits rhs) + rhs
 ;;
 
+(* let concat lhs rhs = 
+  int_of_string ((string_of_int lhs) ^ (string_of_int rhs))
+;; *)
+
 
 let rec isValid part2 cE =
   match cE.numbers with

@@ -39,11 +39,6 @@ let rec getAllAntinodes antennas = function
   | antenna1::xs -> (antennas |> (List.fold_left (fun antinodes antenna2 -> (getAntinodes antenna1 antenna2)@antinodes) [])) @ (getAllAntinodes antennas xs)
 ;;
 
-let smallerEqual coords1 coords2 = 
-  let comp = compare (snd coords1) (snd coords2) in
-  if comp <> 0 then comp else compare (fst coords1) (fst coords2)
-;;
-
 let sol01 lines = 
   let width = lines |> List.hd |> String.length in
   let height = lines |> List.length in
