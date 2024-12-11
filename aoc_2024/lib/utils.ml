@@ -198,3 +198,13 @@ let rec pow b e =
   | 1 -> b
   | e -> b * pow b (e-1)
 ;;
+
+let string_of_int_list = function
+  | [] -> "[]"
+  | x::xs -> 
+    let rec do_it = function
+    | [] -> "]"
+    | x::xs -> "," ^ string_of_int x ^ (do_it xs)
+    in
+    "[" ^ string_of_int x ^ do_it xs
+;;

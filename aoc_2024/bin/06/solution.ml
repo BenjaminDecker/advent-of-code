@@ -1,21 +1,5 @@
 open Aoc_2024.Utils
 
-let direction_of_char = function
-  | '^' -> N
-  | '>' -> E
-  | 'v' -> S
-  | '<' -> W
-  | _ -> raise (Failure "not a direction")
-;;
-
-let char_of_direction = function
-  | N -> '^'
-  | E -> '>'
-  | S -> 'v'
-  | W -> '<'
-  | _ -> raise (Failure "diagonal directions are not allowed")
-;;
-
 let rotate = function
   | N -> E
   | E -> S
@@ -33,9 +17,6 @@ type tile =
   | Free of direction list
   | Obstacle
 ;;
-
-let isGuard c =
-  List.mem c ['^'; '>'; 'v'; '<']
 
 let idxOfCoords width coords = 
   width * coords.y + coords.x

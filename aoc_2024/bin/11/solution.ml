@@ -11,23 +11,13 @@ let split_int n =
   Some (n / s,n mod s)
 ;;
 
-let h = Hashtbl.create 1;;
+let h = Hashtbl.create 0;;
 
 let rec sub_list depth l = 
   if depth == 0 then [] else match l with
   | [] -> raise (Failure "List too short")
   | x::xs -> x::(sub_list (depth-1) xs)
 ;;  
-
-let string_of_list = function
-  | [] -> "[]"
-  | x::xs -> 
-    let rec do_it = function
-    | [] -> "]"
-    | x::xs -> "," ^ string_of_int x ^ (do_it xs)
-    in
-    "[" ^ string_of_int x ^ do_it xs
-;;
 
 let rec count_stones depth stone =
   if depth == 0 then [1] else

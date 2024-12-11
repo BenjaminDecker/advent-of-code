@@ -10,7 +10,7 @@ let lines_to_char_matrix lines =
 
 type direction = N | E | S | W | NE | SE | SW | NW
 
-let straights = [N;E;S;W]
+(* let straights = [N;E;S;W] *)
 
 let diagonals = [NE;SE;SW;NW]
 

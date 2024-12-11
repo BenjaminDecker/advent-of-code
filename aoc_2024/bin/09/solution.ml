@@ -35,11 +35,6 @@ let rec calculateChecksum position blocksLeft blocksRight =
   | Free _, Free _ -> calculateChecksum position blocksLeft restRight
 ;;
 
-let string_of_block = function
-  | Data (length, id) -> "Data(" ^ string_of_int length ^ ", " ^ string_of_int id ^ ")"
-  | Free length -> "Free(" ^ string_of_int length ^ ")"
-;;
-
 let sol01 lines = 
   let line = lines |> List.hd in
   let blocks = line |> parseLine in
