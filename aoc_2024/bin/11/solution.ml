@@ -20,14 +20,15 @@ let rec sub_list depth l =
 ;;  
 
 let rec count_stones depth stone =
-  if depth == 0 then [1] else
+  let big_1 = Big_int_Z.big_int_of_int 1 in
+  if depth == 0 then [big_1] else
   try sub_list (depth + 1) (Hashtbl.find h stone)
   with _ ->
-  let result = 1::(
+  let result = big_1::(
     if stone == 0 then count_stones (depth-1) 1 else
       match split_int stone with
       | None -> count_stones (depth-1) (stone * 2024)
-      | Some (left, right) -> List.fold_right2 (fun elem1 elem2 acc -> (elem1 + elem2)::acc) (count_stones (depth-1) left) (count_stones (depth-1) right) []
+      | Some (left, right) -> List.fold_right2 (fun elem1 elem2 acc -> (Big_int_Z.add_big_int elem1 elem2)::acc) (count_stones (depth-1) left) (count_stones (depth-1) right) []
   ) in
   Hashtbl.add h stone result;
   result
@@ -41,19 +42,26 @@ let rec get_last = function
 
 let sol01 lines =
   let stones = lines |> List.hd |> parse_line in
-  stones |> List.map (count_stones 25) |> List.map get_last |> List.fold_left (+) 0
+  stones |> List.map (count_stones 25) |> List.map get_last |> List.fold_left Big_int_Z.add_big_int Big_int_Z.zero_big_int
 ;;
 
 let sol02 lines =
   let stones = lines |> List.hd |> parse_line in
-  stones |> List.map (count_stones 75) |> List.map get_last |> List.fold_left (+) 0
+  stones |> List.map (count_stones 75) |> List.map get_last |> List.fold_left Big_int_Z.add_big_int Big_int_Z.zero_big_int
+;;
+
+let sol03 lines =
+  let stones = lines |> List.hd |> parse_line in
+  stones |> List.map (count_stones 1000) |> List.map get_last |> List.fold_left Big_int_Z.add_big_int Big_int_Z.zero_big_int
 ;;
 
 let () = 
   Printexc.record_backtrace true;
   let lines = read_lines "bin/11/input.txt" in
   print_endline "Solution 1:";
-  sol01 lines |> print_int |> print_newline;
+  sol01 lines |> Big_int_Z.string_of_big_int |> print_endline;
   print_endline "Solution 2:";
-  sol02 lines |> print_int |> print_newline;
+  sol02 lines |> Big_int_Z.string_of_big_int |> print_endline;
+  print_endline "Solution 3:";
+  sol03 lines |> Big_int_Z.string_of_big_int |> print_endline;
 ;;
