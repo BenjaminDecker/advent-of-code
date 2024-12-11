@@ -186,3 +186,15 @@ let smallerEqual coords1 coords2 =
   let comp = compare (snd coords1) (snd coords2) in
   if comp <> 0 then comp else compare (fst coords1) (fst coords2)
 ;;
+
+let rec numDigits = function
+  | 0 -> 0
+  | n -> 1 + numDigits (n/10)
+;;
+
+let rec pow b e =
+  match e with 
+  | 0 -> 1
+  | 1 -> b
+  | e -> b * pow b (e-1)
+;;

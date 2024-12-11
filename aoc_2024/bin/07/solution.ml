@@ -12,18 +12,6 @@ let parseLine line =
   {result=result; numbers=numbers}
 ;;
 
-let rec numDigits = function
-  | 0 -> 0
-  | n -> 1 + numDigits (n/10)
-;;
-
-let rec pow b e =
-  match e with 
-  | 0 -> 1
-  | 1 -> b
-  | e -> b * pow b (e-1)
-;;
-
 let concat lhs rhs =
   lhs * pow 10 (numDigits rhs) + rhs
 ;;
