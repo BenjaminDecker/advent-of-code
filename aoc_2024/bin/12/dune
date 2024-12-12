@@ -1,0 +1,4 @@
+(executable
+ (public_name 12)
+ (name solution)
+ (libraries aoc_2024))

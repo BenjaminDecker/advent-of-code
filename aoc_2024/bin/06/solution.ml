@@ -8,6 +8,22 @@ let rotate = function
   | _ -> raise (Failure "diagonal directions are not allowed")
 ;;
 
+type coords = {
+  x:int;
+  y:int;
+}
+
+let nextCoords coords = function
+  | N -> {x=coords.x; y=coords.y - 1}
+  | E -> {x=coords.x + 1; y= coords.y}
+  | S -> {x=coords.x; y= coords.y + 1 }
+  | W -> {x=coords.x - 1; y= coords.y}
+  | NE -> {x=coords.x + 1; y= coords.y - 1}
+  | SE -> {x=coords.x + 1; y= coords.y + 1} 
+  | SW -> {x=coords.x - 1; y= coords.y + 1}
+  | NW -> {x=coords.x - 1; y= coords.y - 1}
+;;
+
 type guard = {
   pos:coords;
   dir:direction;

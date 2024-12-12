@@ -60,35 +60,7 @@ let unwrap o =
   | None -> raise (Failure "Unwrap failed")
 ;;
 
-type coords = {
-  x:int;
-  y:int;
-}
-
-let coords_of_tuple t = 
-  {x=fst t;y=snd t}
-;;
-
-let printCoords coords = 
-  print_string "(";
-  print_int coords.x;
-  print_string ",";
-  print_int coords.y;
-  print_endline ")";
-;;
-
 type direction = N | E | S | W | NE | SE | SW | NW
-
-let nextCoords coords = function
-  | N -> {x=coords.x; y=coords.y - 1}
-  | E -> {x=coords.x + 1; y= coords.y}
-  | S -> {x=coords.x; y= coords.y + 1 }
-  | W -> {x=coords.x - 1; y= coords.y}
-  | NE -> {x=coords.x + 1; y= coords.y - 1}
-  | SE -> {x=coords.x + 1; y= coords.y + 1} 
-  | SW -> {x=coords.x - 1; y= coords.y + 1}
-  | NW -> {x=coords.x - 1; y= coords.y - 1}
-;;
 
 let rec getLast = function
   | [] -> raise (Failure "Empty list")
@@ -126,49 +98,11 @@ let flat_char_array_of_lines lines =
   {width=width; height=height; chars=chars}
 ;;
 
-class ['a] flat_array (lines: 'a list) =
-object (self)
-  val width = List.length (List.hd lines)
-  val height = List.length lines
-  val mutable arr = (
-    let width = List.length (List.hd lines) in
-    let height = List.length lines in
-    Array.init (width * height) (
-      fun idx -> let x = idx mod width in let y = idx / width in (List.nth (List.nth lines y) x)
-    )
-  )
-
-  method is_valid coords =
-    let x = (fst coords) in let y = (snd coords) in
-    0 <= x && 0 <= y && x < width && y < height
-
-  method idx_of_coords coords =
-    if not (self#is_valid coords) then raise (Failure "Not a valid index") else 
-    width * (snd coords) + (fst coords)
-
-  method coords_of_idx idx =
-    let coords = idx mod width, idx / width in
-    if not (self#is_valid coords) then raise (Failure "Not a valid index") else 
-    coords
-
-  method get_at coords = 
-    if not (self#is_valid coords) then raise (Failure "Not a valid index") else 
-    arr.(self#idx_of_coords coords)
-
-  method put_at coords elem = 
-    if not (self#is_valid coords) then raise (Failure "Not a valid index") else 
-    arr.(self#idx_of_coords coords) <- elem;
-
-  method find_all_coords f =
-    arr |> Array.to_seqi |> Seq.filter_map (fun (idx, elem) -> if (f elem) then (Some (self#coords_of_idx idx)) else None)
-
-end;;
-
 let print_flat_char_array width arr = 
   Array.iteri (fun idx elem -> if idx mod width == 0 then print_newline (); elem |> print_char;) arr
 
-let string_of_coords coords =
-  "(" ^ string_of_int (fst coords) ^ ", " ^ string_of_int (snd coords) ^ ")"
+let string_of_coord coord =
+  "(" ^ string_of_int (fst coord) ^ ", " ^ string_of_int (snd coord) ^ ")"
 ;;
 
 let next_coords (x, y) = function
@@ -181,6 +115,50 @@ let next_coords (x, y) = function
   | SW -> (x - 1, y + 1)
   | NW -> (x - 1, y - 1)
 ;;
+
+class ['a] flat_array (lines: 'a list list) =
+object (self)
+  val width = List.length (List.hd lines)
+  val height = List.length lines
+  val mutable arr = (
+    let width = List.length (List.hd lines) in
+    let height = List.length lines in
+    Array.init (width * height) (
+      fun idx -> let x = idx mod width in let y = idx / width in (List.nth (List.nth lines y) x)
+    )
+  )
+
+  method is_valid coord =
+    let x = (fst coord) in let y = (snd coord) in
+    0 <= x && 0 <= y && x < width && y < height
+
+  method idx_of_coord coord =
+    if not (self#is_valid coord) then raise (Failure "Not a valid index") else 
+    width * (snd coord) + (fst coord)
+
+  method coord_of_idx idx =
+    let coord = idx mod width, idx / width in
+    if not (self#is_valid coord) then raise (Failure "Not a valid index") else 
+    coord
+
+  method get_at coord = 
+    if not (self#is_valid coord) then raise (Failure "Not a valid index") else 
+    arr.(self#idx_of_coord coord)
+
+  method put_at coord elem = 
+    if not (self#is_valid coord) then raise (Failure "Not a valid index") else 
+    arr.(self#idx_of_coord coord) <- elem;
+
+  method get_neighbor_coords directions coord =
+    directions |> List.map (next_coords coord) |> List.filter (self#is_valid) 
+
+  method find_all_coords f =
+    arr |> Array.to_seqi |> Seq.filter_map (fun (idx, elem) -> if (f elem) then (Some (self#coord_of_idx idx)) else None)
+
+  method print f =
+    arr |> Array.iteri (fun idx elem -> if idx mod width == 0 then print_newline (); elem |> f |> print_string;) |> print_newline
+
+end;;
 
 let smallerEqual coords1 coords2 = 
   let comp = compare (snd coords1) (snd coords2) in
@@ -199,12 +177,16 @@ let rec pow b e =
   | e -> b * pow b (e-1)
 ;;
 
-let string_of_int_list = function
+let string_of_list f = function
   | [] -> "[]"
   | x::xs -> 
     let rec do_it = function
     | [] -> "]"
-    | x::xs -> "," ^ string_of_int x ^ (do_it xs)
+    | x::xs -> "," ^ f x ^ (do_it xs)
     in
-    "[" ^ string_of_int x ^ do_it xs
+    "[" ^ f x ^ do_it xs
+;;
+
+let just_print f e =
+  e |> f |> print_endline; e
 ;;
