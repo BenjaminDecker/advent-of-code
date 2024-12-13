@@ -20,7 +20,6 @@ let get_region farm coord =
       let f_set = CoordSet.add coord f_set in
       imp w_set f_set
     )
-    
   in
   imp (CoordSet.singleton coord) CoordSet.empty
 ;;
@@ -55,7 +54,7 @@ let get_perimeter pt1 region =
     |> List.filter (fun dir -> (not (CoordSet.mem (next_coords coord dir) region)))
     |> List.filter (fun dir -> pt1 || (does_count region coord dir))
     |> List.length
-    |> ((+) acc)
+    |> (+) acc
   ) region 0
 ;;
 
