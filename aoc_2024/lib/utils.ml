@@ -160,9 +160,13 @@ object (self)
 
 end;;
 
-let smallerEqual coords1 coords2 = 
-  let comp = compare (snd coords1) (snd coords2) in
-  if comp <> 0 then comp else compare (fst coords1) (fst coords2)
+let smallerEqual coord1 coord2 = 
+  let comp = compare (snd coord1) (snd coord2) in
+  if comp <> 0 then comp else compare (fst coord1) (fst coord2)
+;;
+
+let add_coords coord1 coord2 =
+  (fst coord1 + fst coord2),(snd coord1 + snd coord2)
 ;;
 
 let rec numDigits = function
