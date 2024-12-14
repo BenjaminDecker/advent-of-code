@@ -54,8 +54,14 @@ let variance coord_list =
 let sol02 lines = 
   let robots = lines |> List.map parse_line in
   let rec imp t =
-    let (var_x, var_y) = robots |> List.map (fun (p,v) -> pos_after_n p v t) |> variance in
-    if var_x < 350.0 && var_y < 650.0 then t else imp (t+1)
+    let p_after_n = robots |> List.map (fun (p,v) -> pos_after_n p v t) in
+    let (var_x, var_y) = p_after_n |> variance in
+    if var_x < 350.0 && var_y < 650.0 then 
+      let picture = new flat_array (List.init height (fun _ -> List.init width (fun _ -> ' '))) in
+      p_after_n |> List.iter (fun coord -> picture#put_at coord '#');
+      picture#print Char.escaped;
+      t 
+  else imp (t+1)
   in
   imp 0
 ;;
