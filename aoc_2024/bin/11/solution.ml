@@ -50,10 +50,10 @@ let sol02 lines =
   stones |> List.map (count_stones 75) |> List.map get_last |> List.fold_left Big_int_Z.add_big_int Big_int_Z.zero_big_int
 ;;
 
-let sol03 lines =
+(* let sol03 lines =
   let stones = lines |> List.hd |> parse_line in
   stones |> List.map (count_stones 200) |> List.map get_last |> List.fold_left Big_int_Z.add_big_int Big_int_Z.zero_big_int
-;;
+;; *)
 
 let () = 
   Printexc.record_backtrace true;
@@ -62,6 +62,6 @@ let () =
   sol01 lines |> Big_int_Z.string_of_big_int |> print_endline;
   print_endline "Solution 2:";
   sol02 lines |> Big_int_Z.string_of_big_int |> print_endline;
-  print_endline "Solution 3:";
-  sol03 lines |> Big_int_Z.string_of_big_int |> print_endline;
+  (* print_endline "Solution 3:";
+  sol03 lines |> Big_int_Z.string_of_big_int |> print_endline; *)
 ;;

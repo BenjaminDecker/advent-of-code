@@ -7,8 +7,7 @@ let rec checkReport op lastElem  = function
 ;;
 
 let startCheckReport = function
-  | [] -> true
-  | _::[] -> true
+  | [] | _::[] -> true
   | x::xs::xss -> 
     if x < xs then
       checkReport (>) x (xs::xss)
@@ -25,8 +24,7 @@ let rec checkReportDampened op lastElem = function
 ;;
 
 let startCheckReportDampened = function
-  | [] -> true
-  | _::[] -> true
+  | [] | _::[] -> true
   | x::xs::xss -> if x < xs then
     checkReportDampened (>) x (xs::xss) || startCheckReport (xs::xss) || startCheckReport (x::xss)
   else

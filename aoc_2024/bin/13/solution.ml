@@ -40,6 +40,7 @@ let get_cost b =
 ;;
 
 let rec get_blocks = function
+  | ""::rest -> get_blocks rest
   | l1::l2::l3::rest -> (l1::l2::l3::[])::(get_blocks (try (List.tl rest) with _ -> []))
   | _ -> []
 ;;

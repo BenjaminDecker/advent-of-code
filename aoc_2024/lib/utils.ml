@@ -194,3 +194,8 @@ let string_of_list f = function
 let just_print f e =
   e |> f |> print_endline; e
 ;;
+
+let coord_of_string s = 
+  let s = String.split_on_char ',' s in
+  (List.nth s 0 |> int_of_string, List.nth s 1 |> int_of_string)
+;;
