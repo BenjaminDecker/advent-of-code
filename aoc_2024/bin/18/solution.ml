@@ -30,11 +30,21 @@ let sol01 lines =
   dijkstra grid CoordSet.empty [((0,0),0)]
 ;;
 
+let binary_search f arr =
+  let rec imp f arr left right =
+    if left = right then arr.(left) else
+    let middle = (left+right)/2 in
+    if f arr.(middle) then imp f arr left middle else imp f arr (middle+1) right
+  in
+  imp f arr 0 (Array.length arr)
+;;
+
 let sol02 lines = 
   lines
   |> List.length
-  |> (range 1024)
-  |> List.find (fun i -> try let _ = sol01 (sublist (i+1) lines) in false with _ -> true)
+  |> (range 0)
+  |> Array.of_list
+  |> binary_search (fun i -> try let _ = sol01 (sublist (i+1) lines) in false with _ -> true)
   |> List.nth lines
 ;;
 
