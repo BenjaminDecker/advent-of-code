@@ -208,3 +208,17 @@ let rec split_lines = function
   | line::rest -> let (lhs,rhs) = split_lines rest in (line::lhs, rhs)
   | [] -> failwith "Empty lists are not allowed"
 ;;
+
+let rec sublist length list = 
+  match (length, list) with
+  | (0,_) -> []
+  | (n,x::xs) -> x::(sublist (n-1) xs)
+  | _ -> failwith "List too short"
+;;
+
+module Coord = struct 
+  type t = int * int
+  let compare = compare
+end
+
+module CoordSet = Set.Make(Coord)
