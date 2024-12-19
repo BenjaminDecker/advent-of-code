@@ -105,7 +105,7 @@ let string_of_coord coord =
   "(" ^ string_of_int (fst coord) ^ ", " ^ string_of_int (snd coord) ^ ")"
 ;;
 
-let next_coords (x, y) = function
+let next_coord (x, y) = function
   | N -> (x, y - 1)
   | E -> (x + 1, y)
   | S -> (x, y + 1)
@@ -150,7 +150,10 @@ object (self)
     arr.(self#idx_of_coord coord) <- elem;
 
   method get_neighbor_coords directions coord =
-    directions |> List.map (next_coords coord) |> List.filter (self#is_valid) 
+    directions |> List.map (next_coord coord) |> List.filter (self#is_valid) 
+
+  method find_first f =
+    arr |> Array.find_index f |> Option.get |> self#coord_of_idx
 
   method find_all_coords f =
     arr |> Array.to_seqi |> Seq.filter_map (fun (idx, elem) -> if (f elem) then (Some (self#coord_of_idx idx)) else None)
@@ -198,4 +201,10 @@ let just_print f e =
 let coord_of_string s = 
   let s = String.split_on_char ',' s in
   (List.nth s 0 |> int_of_string, List.nth s 1 |> int_of_string)
+;;
+
+let rec split_lines = function
+  | ""::rest -> ([], rest)
+  | line::rest -> let (lhs,rhs) = split_lines rest in (line::lhs, rhs)
+  | [] -> failwith "Empty lists are not allowed"
 ;;
