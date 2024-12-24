@@ -128,6 +128,12 @@ object (self)
     )
   )
 
+  method width = 
+    width
+
+  method height = 
+    height
+
   method is_valid coord =
     let x = (fst coord) in let y = (snd coord) in
     0 <= x && 0 <= y && x < width && y < height
@@ -222,3 +228,11 @@ module Coord = struct
 end
 
 module CoordSet = Set.Make(Coord)
+
+let range_seq a b =
+  Seq.unfold (fun a -> if a >= b then None else Some (a,a+1)) a
+;;
+
+let sub lhs rhs = 
+  ((fst lhs - fst rhs), (snd lhs - snd rhs))
+;;
