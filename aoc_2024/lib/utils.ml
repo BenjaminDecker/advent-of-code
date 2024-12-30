@@ -236,3 +236,11 @@ let range_seq a b =
 let sub lhs rhs = 
   ((fst lhs - fst rhs), (snd lhs - snd rhs))
 ;;
+
+let rec split_list f = function
+  | [] -> [[]]
+  | x::xs -> match split_list f xs with
+    | []::xs' -> if f x then []::[]::xs' else [x]::xs'
+    | x'::xs' -> if f x then []::x'::xs' else (x::x')::xs'
+    | [] -> failwith "Impossible"
+;;
