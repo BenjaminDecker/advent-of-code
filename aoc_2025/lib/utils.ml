@@ -46,3 +46,8 @@ let range a b =
   let rec imp l i = if i < a then l else imp (i::l) (i-1) in
 imp [] (b-1)
 ;;
+
+let rec int_of_list acc = function
+  | [] -> acc
+  | x::xs -> (int_of_list (acc * 10 + x) xs)
+;;
