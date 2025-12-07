@@ -62,6 +62,7 @@ let lines_to_matrix f lines =
 
 let width m = Array.length m;;
 let height m = Array.length (m.(0));;
+let dimensions m = (m |> height), (m |> width);;
 
 let print_matrix f m =
   let width = width m in
