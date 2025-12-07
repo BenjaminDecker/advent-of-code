@@ -9,13 +9,6 @@ let tile_of_char = function
   | _ -> VISITED_SPLITTER 0
 ;;
 
-(* let char_of_tile = function
-  | SPLITTER -> '^'
-  | VISITED_SPACE -> '#'
-  | VISITED_SPLITTER -> '1'
-  | EMPTY_SPACE -> '.'
-;; *)
-
 let fire_beam start_x manifold =
   let height = manifold |> height in
   let rec imp x y =
